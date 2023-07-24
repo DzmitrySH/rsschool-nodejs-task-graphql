@@ -20,7 +20,7 @@ export const rootQuery = new GraphQLObjectType({
     user: {
       type: UserType as GraphQLObjectType,
       args: {id: { type: new GraphQLNonNull(UUIDType) } },
-      resolve: async (source, args: { id: string }, { loader }: Context) => {
+      resolve: async (source: unknown, args: { id: string }, { loader }: Context) => {
         const { id } = args;
         return await loader.user.load(id);
       },

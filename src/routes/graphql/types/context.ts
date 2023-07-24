@@ -2,7 +2,7 @@ import { PrismaClient, Profile } from '@prisma/client';
 import DataLoader from 'dataloader';
 import { User, Post, MemberType } from '../types/type.js';
 
-export interface Context {
+export type Context = {
   prisma: PrismaClient,
   loader: Loader;
 };
