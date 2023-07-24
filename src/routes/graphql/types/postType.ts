@@ -11,7 +11,6 @@ import { Post } from '@prisma/client';
 
 export const PostType = new GraphQLObjectType({
   name: 'Post',
-  description: 'Post data',
   fields: () => ({
     id: { type: UUIDType },
     title: { type: new GraphQLNonNull(GraphQLString) },
