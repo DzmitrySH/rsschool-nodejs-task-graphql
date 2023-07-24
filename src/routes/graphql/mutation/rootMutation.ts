@@ -1,6 +1,6 @@
-import { GraphQLObjectType } from 'graphql';
+import { GraphQLObjectType, GraphQLNonNull } from 'graphql';
 import { Context } from '../types/context.js';
-import { CreateUserInputType, UserType, changeUserInputType } from '../types/userType.js';
+import { CreateUserInputType, UserType, ChangeUserInputType } from '../types/userType.js';
 import { Post, Profile, User } from '@prisma/client';
 import { PostType, ChangePostType, CreatePostType } from '../types/postType.js';
 import { ProfileType, ChangeProfileType, CreateProfileType } from '../types/profileType.js';
@@ -106,8 +106,8 @@ export const rootMutation = new GraphQLObjectType({
     changeUser: {
       type: UserType as GraphQLObjectType,
       args: {
-        id: { type: UUIDType },
-        dto: { type: changeUserInputType }
+        id: { type: new GraphQLNonNull(UUIDType) },
+        dto: { type: ChangeUserInputType }
       },
       resolve: async (source, args: { id: string, dto: User }, { prisma }: Context) => {
         const { dto, id } = args;

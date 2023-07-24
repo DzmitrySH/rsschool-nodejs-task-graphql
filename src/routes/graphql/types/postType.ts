@@ -13,13 +13,13 @@ export const PostType = new GraphQLObjectType({
   name: 'Post',
   fields: () => ({
     id: { type: UUIDType },
-    title: { type: new GraphQLNonNull(GraphQLString) },
-    content: { type: new GraphQLNonNull(GraphQLString) },
+    title: { type: GraphQLString },
+    content: { type: GraphQLString },
     authorId: { type: UUIDType },
     author: {
-      type: new GraphQLNonNull(UserType),
-      resolve: async ({ authorId }: Post, args, { prisma }: Context) => {
-        return await prisma.user.findUnique({ where: { id: authorId } });
+      type: UserType as GraphQLObjectType,
+      resolve: async ({ authorId }: Post, _args, { loader }: Context) => {
+        return await loader.user.load(authorId);
       },
     },
   }),
@@ -28,8 +28,8 @@ export const PostType = new GraphQLObjectType({
 export const CreatePostType = new GraphQLInputObjectType({
   name: 'CreatePostInput',
   fields: () => ({
-    title: { type: new GraphQLNonNull(GraphQLString) },
-    content: { type: new GraphQLNonNull(GraphQLString) },
+    title: { type: GraphQLString },
+    content: { type: GraphQLString },
     authorId: { type: new GraphQLNonNull(UUIDType) },
   }),
 });
@@ -39,6 +39,6 @@ export const ChangePostType = new GraphQLInputObjectType({
   fields: () => ({
     title: { type: GraphQLString },
     content: { type: GraphQLString },
-    authorId: { type: UUIDType },
+    // authorId: { type: UUIDType },
   }),
 });
